@@ -22,7 +22,6 @@ input[type=search] { flex: 1; min-width: 160px; }
 label.chk { font-size: 13px; color: #44413b; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
 .group-title { font-size: 13px; font-weight: 600; color: #6b6862; text-transform: uppercase; letter-spacing: .04em; margin: 22px 0 10px; }
 .card { background: #fff; border: 1px solid #eceae3; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
-.card.hidden, .group.hidden { display: none; }
 .ctop { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
 .ctitle { font-size: 15px; font-weight: 600; margin: 0; }
 .corg { font-size: 13px; color: #6b6862; margin: 1px 0 0; }
@@ -35,7 +34,6 @@ label.chk { font-size: 13px; color: #44413b; display: inline-flex; align-items: 
 .actions { margin-top: 12px; }
 a.apply { display: inline-block; font-size: 13px; padding: 7px 14px; border-radius: 8px; background: #23211e; color: #fff; text-decoration: none; }
 a.apply.alt { background: #fff; color: #23211e; border: 1px solid #ddd9d0; }
-.tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #f0eee7; color: #6b6862; margin-left: 6px; }
 .empty { color: #8a8780; font-size: 14px; padding: 20px 0; }
 .foot { margin-top: 28px; font-size: 12px; color: #8a8780; border-top: 1px solid #eceae3; padding-top: 14px; }
 </style>
@@ -43,10 +41,10 @@ a.apply.alt { background: #fff; color: #23211e; border: 1px solid #ddd9d0; }
 <body>
 <div class="wrap">
   <h1>Juju — opportunities</h1>
-  <div class="sub" id="sub">Modeling · make-up · singing — Berlin + remote/Germany + Florence, Milan, Lisbon, Zurich</div>
+  <div class="sub" id="sub">Modeling · make-up · singing</div>
 
   <div class="banner">
-    <b>Safety first:</b> a real agency or casting <b>never</b> asks you to pay to join — no registration, portfolio, or test-shoot fees. They earn commission only when you get booked. Ignore "you've been spotted" DMs, pressure to sign fast, or anyone asking for money / ID / bank details. Apply only via the official links here. <b>✓ Verified</b> = link checked this run. <b>⚠ Check</b> = confirm pay & terms before sharing personal details.
+    <b>Safety first:</b> a real agency or casting <b>never</b> asks you to pay to join — no registration, portfolio, or test-shoot fees. They earn commission only when you get booked. Ignore "you've been spotted" DMs, pressure to sign fast, or anyone asking for money / ID / bank details. Apply only via the official links here. <b>✓ Verified</b> = link checked this run. <b>⚠ Check</b> = well-known agency, not link-checked this run / confirm pay &amp; terms before sharing personal details.
   </div>
 
   <div class="controls" id="disc"></div>
@@ -54,46 +52,76 @@ a.apply.alt { background: #fff; color: #23211e; border: 1px solid #ddd9d0; }
     <select id="city">
       <option value="">All locations</option>
       <option value="Berlin">Berlin</option>
-      <option value="Germany">Remote / Germany-wide</option>
-      <option value="Other">Florence / Milan / Lisbon / Zurich</option>
+      <option value="Germany">Germany-wide</option>
+      <option value="Switzerland">Switzerland</option>
+      <option value="Milan">Milan</option>
+      <option value="Florence">Florence</option>
+      <option value="Lisbon">Lisbon</option>
+      <option value="France">France</option>
+      <option value="England">England</option>
     </select>
     <label class="chk"><input type="checkbox" id="ver"> Verified only</label>
     <input type="search" id="q" placeholder="Search (e.g. curvy, soprano, bridal, paid)…">
   </div>
 
   <div id="list"></div>
-
   <div class="foot" id="foot"></div>
 </div>
 
 <script>
 const DATA = [
- {d:"Modeling", t:"SHOWCAST — model & creator agency", o:"Plus-size division · apply free", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Commission (free to join)", req:"All sizes; plus-size board", status:"ok", url:"https://www.showcast.de/en"},
+ {d:"Modeling", t:"SHOWCAST — model & creator agency", o:"Plus-size division · apply free", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Commission (free)", req:"All sizes; plus board", status:"ok", url:"https://www.showcast.de/en"},
  {d:"Modeling", t:"Glowstaff — curvy models", o:"Shoots, runway, fittings", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Per booking", req:"Curvy board", status:"ok", url:"https://glowstaff.de/en/curvy-model/"},
  {d:"Modeling", t:"Indeed Model Management — curvy", o:"Berlin agency, ages 18–99", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Commission (free)", req:"Curvy division", status:"ok", url:"https://www.indeedmodels.com/en/women/curvy"},
- {d:"Modeling", t:"CM Models — curve", o:"Berlin agency, curve board", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Commission (free)", req:"Curve division", status:"ok", url:"https://cmmodels.com/model-agency-curvy/"},
+ {d:"Modeling", t:"CM Models — curve (Berlin)", o:"Curve board", loc:"Berlin", city:"Berlin", type:"curve/plus", lang:"DE/EN", pay:"Commission (free)", req:"Curve division", status:"ok", url:"https://cmmodels.com/model-agency-curvy/"},
  {d:"Modeling", t:"The Models — Berlin", o:"Plus, best-ager & commercial", loc:"Berlin", city:"Berlin", type:"commercial/plus", lang:"DE/EN", pay:"Per booking", req:"Many body types & ages", status:"ok", url:"https://the-models.de/en/model-agency/berlin"},
  {d:"Modeling", t:"JAY JAY Models — apply", o:"Commercial/people + fashion", loc:"Berlin", city:"Berlin", type:"commercial", lang:"DE/EN", pay:"Commission (free)", req:"Commercial: no height limit", status:"ok", url:"https://www.jayjay-models.de/apply"},
  {d:"Modeling", t:"Modelagentur Berlin — apply", o:"Women, plus, best-ager, hostess", loc:"Berlin", city:"Berlin", type:"commercial/plus", lang:"DE/EN", pay:"Free, non-binding", req:"Open to newcomers", status:"ok", url:"https://www.modelagentur-berlin.org/en/become-a-model.html"},
  {d:"Modeling", t:"Iconic Management — apply", o:"Boutique Berlin agency", loc:"Berlin", city:"Berlin", type:"fashion/editorial", lang:"DE/EN", pay:"Commission (free)", req:"No experience needed", status:"ok", url:"https://www.iconicmanagement.com/become-iconic/"},
  {d:"Modeling", t:"IZAIO Models — apply", o:"Berlin agency", loc:"Berlin", city:"Berlin", type:"fashion/commercial", lang:"DE/EN", pay:"Commission (free)", req:"Women/men/non-binary", status:"ok", url:"https://www.izaio.de/agency/become_a_model"},
  {d:"Modeling", t:"Seeds — apply", o:"Berlin agency (since 1999)", loc:"Berlin", city:"Berlin", type:"fashion/editorial", lang:"DE/EN", pay:"Commission (free)", req:"New faces welcome", status:"ok", url:"https://www.seeds.de/apply/en/"},
- {d:"Modeling", t:"Mega Model Agency — apply", o:"Books nationwide", loc:"Germany-wide", city:"Germany", type:"all (women/curvy)", lang:"DE/EN", pay:"Commission (free)", req:"Women, men & curvy welcome", status:"ok", url:"https://www.megamodelagency.com/apply"},
  {d:"Modeling", t:"Live: commercial outdoor shoot — luggage brand", o:"via StagePool", loc:"Berlin", city:"Berlin", type:"commercial (paid)", lang:"DE/EN", pay:"€50 / hour", req:"Age ~25–35, any height", status:"ok", url:"https://de.stagepool.com/model/257987/model_wd_fur_outdoor_shooting_einer_koffermarke_gesucht"},
- {d:"Modeling", t:"StagePool — Models feed", o:"Free account; filter Berlin", loc:"Berlin + Germany", city:"Berlin", type:"castings (paid)", lang:"DE/EN", pay:"Varies per gig", req:"Browse & apply", status:"ok", url:"https://en.stagepool.com/model"},
+ {d:"Modeling", t:"Mega Model Agency — apply", o:"Hamburg HQ, books nationwide", loc:"Germany-wide", city:"Germany", type:"all (women/curvy)", lang:"DE/EN", pay:"Commission (free)", req:"Women, men & curvy", status:"ok", url:"https://www.megamodelagency.com/apply"},
+ {d:"Modeling", t:"MGM Models", o:"Hamburg, books nationwide", loc:"Germany-wide", city:"Germany", type:"fashion/commercial", lang:"DE/EN", pay:"Commission (free)", req:"Use 'New Faces'/apply", status:"ok", url:"https://www.mgm-models.de"},
+ {d:"Modeling", t:"Modelwerk", o:"Hamburg, national bookings", loc:"Germany-wide", city:"Germany", type:"fashion", lang:"DE/EN", pay:"Commission (free)", req:"Scouting/apply page", status:"ok", url:"https://www.modelwerk.de/"},
+ {d:"Modeling", t:"Louisa Models", o:"Munich/Hamburg, major agency", loc:"Germany-wide", city:"Germany", type:"fashion/commercial", lang:"DE/EN", pay:"Commission (free)", req:"New Faces", status:"ok", url:"https://www.louisa-models.de/"},
+ {d:"Modeling", t:"Kult Models", o:"Books nationwide", loc:"Germany-wide", city:"Germany", type:"fashion", lang:"DE/EN", pay:"Commission (free)", req:"Get scouted", status:"ok", url:"http://www.kultmodels.com/"},
+ {d:"Modeling", t:"Tigers Management", o:"Books nationwide", loc:"Germany-wide", city:"Germany", type:"fashion/commercial", lang:"DE/EN", pay:"Commission (free)", req:"Apply page", status:"ok", url:"https://www.tigers-mgmt.com/"},
+ {d:"Modeling", t:"RAYA Models", o:"Berlin/Hamburg/Munich/Cologne", loc:"Germany-wide", city:"Germany", type:"fashion/people", lang:"DE/EN", pay:"Commission (free)", req:"Apply page", status:"ok", url:"https://www.rayamodels.com/?lang=en"},
+ {d:"Modeling", t:"StagePool — Models feed (all Germany)", o:"Free account; filter any city", loc:"Germany-wide", city:"Germany", type:"castings (paid)", lang:"DE/EN", pay:"Varies per gig", req:"Browse & apply", status:"ok", url:"https://en.stagepool.com/model"},
+ {d:"Modeling", t:"Scout Model Agency", o:"Switzerland's largest (editorial + commercial), Zurich HQ", loc:"Switzerland", city:"Switzerland", type:"editorial/commercial", lang:"DE/EN", pay:"Commission (free)", req:"Scouting/applications", status:"ok", url:"https://www.scout-model.com/"},
+ {d:"Modeling", t:"Modelagentur Zürich — apply", o:"Books across CH via partners; plus/best-ager", loc:"Switzerland", city:"Switzerland", type:"commercial/plus", lang:"DE/EN", pay:"Free to apply", req:"CH + DE jobs", status:"ok", url:"https://www.modelagentur-zuerich.ch/en/"},
+ {d:"Modeling", t:"BeautyFull Models — Milan", o:"Curvy, timeless & in-between", loc:"Milan", city:"Milan", type:"curve/plus", lang:"IT/EN", pay:"Commission (free)", req:"Curvy/plus & all ages", status:"ok", url:"https://www.beautyfullmodels.it/"},
+ {d:"Modeling", t:"CM Models — Milan", o:"New-faces scouting", loc:"Milan", city:"Milan", type:"fashion/commercial", lang:"IT/EN", pay:"Commission (free)", req:"Apply online", status:"ok", url:"https://cmmodels.com/milan/"},
+ {d:"Modeling", t:"Fashion Concept — Florence", o:"Florence agency since 1992 (also Milan/Rome)", loc:"Florence", city:"Florence", type:"fashion/commercial", lang:"IT/EN", pay:"Commission (free)", req:"Portfolio/casting", status:"ok", url:"https://www.fashionconcept.it/model-agency-florence"},
+ {d:"Modeling", t:"Karacter Agency — Lisbon", o:"Women/commercial/talents · 'Be a model'", loc:"Lisbon", city:"Lisbon", type:"fashion/commercial", lang:"PT/EN", pay:"Commission (free)", req:"Apply online", status:"ok", url:"https://www.karacteragency.pt/en/"},
+ {d:"Modeling", t:"CLOSE Management — Lisbon", o:"Lisbon model agency", loc:"Lisbon", city:"Lisbon", type:"fashion/commercial", lang:"PT/EN", pay:"Commission (free)", req:"Apply via site", status:"ok", url:"https://close.pt/"},
+ {d:"Modeling", t:"CM Models — Paris", o:"New-faces scouting", loc:"Paris, France", city:"France", type:"fashion/commercial", lang:"FR/EN", pay:"Commission (free)", req:"Apply online", status:"ok", url:"https://cmmodels.com/paris/"},
+ {d:"Modeling", t:"Marilyn Agency — Paris", o:"Iconic Paris agency (since 1985)", loc:"Paris, France", city:"France", type:"fashion/commercial", lang:"FR/EN", pay:"Commission (free)", req:"Scouting/apply on site", status:"ok", url:"https://www.marilynagency.com/"},
+ {d:"Modeling", t:"Models 1 — London", o:"Major agency incl. dedicated curve division", loc:"London, England", city:"England", type:"fashion/curve/commercial", lang:"EN", pay:"Commission (free)", req:"'Be discovered' / get scouted", status:"ok", url:"https://www.models1.co.uk/"},
+ {d:"Modeling", t:"BRIDGE Models — London", o:"Bridges standard & plus; diverse", loc:"London, England", city:"England", type:"curve/commercial", lang:"EN", pay:"Commission (free)", req:"Curve/plus board; apply on site", status:"ok", url:"https://www.bridgemodels.co.uk/"},
 
- {d:"Make-up", t:"StagePool — Hair, Make-up & Costume feed", o:"Filter by Berlin", loc:"Berlin + Germany", city:"Berlin", type:"film/theatre/TV", lang:"DE/EN", pay:"Varies (many paid)", req:"MUA experience helps", status:"ok", url:"https://de.stagepool.com/berufsgruppe/haare_make_up_kostum"},
- {d:"Make-up", t:"StagePool — Make-up Artist listings", o:"Direct MUA category", loc:"Berlin + Germany", city:"Berlin", type:"film/editorial", lang:"DE/EN", pay:"Varies", req:"Own kit often required", status:"ok", url:"https://de.stagepool.com/make_up_artist"},
- {d:"Make-up", t:"Crew United — film/TV MUA jobs", o:"Germany's main film-crew network", loc:"Berlin + Germany", city:"Germany", type:"film/TV", lang:"DE/EN", pay:"Paid productions", req:"Free profile; portfolio", status:"ok", url:"https://www.crew-united.com/en/"},
+ {d:"Make-up", t:"StagePool — Hair, Make-up & Costume feed", o:"Filter by city", loc:"Germany-wide", city:"Germany", type:"film/theatre/TV", lang:"DE/EN", pay:"Varies (many paid)", req:"MUA experience helps", status:"ok", url:"https://de.stagepool.com/berufsgruppe/haare_make_up_kostum"},
+ {d:"Make-up", t:"StagePool — Make-up Artist listings", o:"Direct MUA category", loc:"Germany-wide", city:"Germany", type:"film/editorial", lang:"DE/EN", pay:"Varies", req:"Own kit often required", status:"ok", url:"https://de.stagepool.com/make_up_artist"},
+ {d:"Make-up", t:"Crew United — film/TV MUA jobs", o:"Germany's main film-crew network", loc:"Germany-wide", city:"Germany", type:"film/TV", lang:"DE/EN", pay:"Paid productions", req:"Free profile; portfolio", status:"ok", url:"https://www.crew-united.com/en/"},
+ {d:"Make-up", t:"Liganord", o:"Hamburg/Berlin · hair, make-up & styling agency", loc:"Germany-wide", city:"Germany", type:"editorial/campaign", lang:"DE/EN", pay:"Represented bookings", req:"Strong portfolio", status:"ok", url:"https://www.liganord.com/"},
+ {d:"Make-up", t:"Bigoudi", o:"German hair & make-up agency (40+ yrs)", loc:"Germany-wide", city:"Germany", type:"editorial/commercial", lang:"DE/EN", pay:"Represented bookings", req:"Portfolio", status:"ok", url:"https://www.bigoudi.de/"},
+ {d:"Make-up", t:"Style Council — Switzerland", o:"Hair + make-up & styling agency (Zurich)", loc:"Switzerland", city:"Switzerland", type:"editorial/commercial", lang:"DE/EN", pay:"Represented bookings", req:"Portfolio", status:"ok", url:"https://www.style-council.ch/"},
+ {d:"Make-up", t:"Scout People — Switzerland", o:"Commercial faces & talent (Scout, Zurich)", loc:"Switzerland", city:"Switzerland", type:"commercial", lang:"DE/EN", pay:"Represented bookings", req:"Apply via Scout", status:"ok", url:"https://www.scout-model.com/"},
+ {d:"Make-up", t:"Production Paradise — Lisbon hair & make-up", o:"Directory of Lisbon MUAs & studios", loc:"Lisbon", city:"Lisbon", type:"directory", lang:"PT/EN", pay:"Varies", req:"Find & contact artists/studios", status:"ok", url:"https://www.productionparadise.com/directory/lisbon/hair-makeup-styling-talents/hair-and-make-up-artists"},
+ {d:"Make-up", t:"Calliste Agency — Paris", o:"Luxury fashion & beauty MUA/hair reps", loc:"Paris, France", city:"France", type:"editorial/campaign", lang:"FR/EN", pay:"Represented bookings", req:"Strong portfolio", status:"ok", url:"https://www.callisteagency.com/"},
+ {d:"Make-up", t:"Artlist Paris", o:"Artists agency (MUA, hair, stylists)", loc:"Paris, France", city:"France", type:"editorial/campaign", lang:"FR/EN", pay:"Represented bookings", req:"Strong portfolio", status:"ok", url:"https://artlistparis.com/"},
+ {d:"Make-up", t:"Carol Hayes Management — London", o:"Leading hair/make-up & styling agency", loc:"London, England", city:"England", type:"editorial/campaign", lang:"EN", pay:"Represented bookings", req:"Portfolio", status:"ok", url:"https://www.carolhayesmanagement.co.uk/"},
+ {d:"Make-up", t:"One Represents — London", o:"Creative agency repping MUAs & hair", loc:"London, England", city:"England", type:"editorial/campaign", lang:"EN", pay:"Represented bookings", req:"Portfolio", status:"ok", url:"https://www.onerepresents.com/"},
  {d:"Make-up", t:"Live: Hair & Make-up — short film 'Im April'", o:"via StagePool", loc:"Berlin", city:"Berlin", type:"short film", lang:"DE/EN", pay:"Profit-share (deferred)", req:"Confirm terms; unpaid upfront", status:"check", note:"Profit-share / no upfront pay — fine for portfolio, but confirm before committing.", url:"https://de.stagepool.com/make_up_artist/255567/hair_make_up_artist_wmd_fur_kurzfilmepisoden_im_april_at_in_berlin_gesucht"},
 
- {d:"Singing", t:"StagePool — Classical singers", o:"Soprano-friendly feed", loc:"Berlin + Germany", city:"Berlin", type:"classical", lang:"DE/EN", pay:"Varies", req:"Soprano roles", status:"ok", url:"https://de.stagepool.com/klassischer_sanger"},
- {d:"Singing", t:"StagePool — Opera singers", o:"Opera/ensemble calls", loc:"Berlin + Germany", city:"Berlin", type:"opera", lang:"DE/EN", pay:"Varies", req:"Trained voice", status:"ok", url:"https://de.stagepool.com/opernsanger"},
- {d:"Singing", t:"StagePool — Choir singers", o:"Choir & ensemble", loc:"Berlin + Germany", city:"Berlin", type:"choir", lang:"DE/EN", pay:"Varies (some paid)", req:"Sight-reading helps", status:"ok", url:"https://de.stagepool.com/chorsanger"},
- {d:"Singing", t:"StagePool — Musical performers", o:"Musical theatre castings", loc:"Berlin + Germany", city:"Berlin", type:"musical theatre", lang:"DE/EN", pay:"Varies", req:"Sing + move", status:"ok", url:"https://de.stagepool.com/musicaldarsteller"},
- {d:"Singing", t:"StagePool — Pop/Rock/Jazz singers", o:"Bands, events, sessions", loc:"Berlin + Germany", city:"Berlin", type:"pop/jazz", lang:"DE/EN", pay:"Varies (many paid)", req:"Demo helps", status:"ok", url:"https://de.stagepool.com/pop_rock_jazz_sanger"},
- {d:"Singing", t:"Gigmit — paid live music gigs", o:"Venues & festivals booking", loc:"Berlin + Europe", city:"Germany", type:"live gigs (paid)", lang:"EN/DE", pay:"Paid bookings", req:"Free artist profile", status:"ok", url:"https://www.gigmit.com/"},
- {d:"Singing", t:"e-TALENTA — singer & musical castings", o:"DACH casting platform", loc:"Berlin + DACH", city:"Germany", type:"castings", lang:"DE/EN", pay:"Varies", req:"Profile + showreel", status:"ok", url:"https://www.etalenta.eu/en"}
+ {d:"Singing", t:"StagePool — Classical singers", o:"Soprano-friendly feed", loc:"Germany-wide", city:"Germany", type:"classical", lang:"DE/EN", pay:"Varies", req:"Soprano roles", status:"ok", url:"https://de.stagepool.com/klassischer_sanger"},
+ {d:"Singing", t:"StagePool — Opera singers", o:"Opera/ensemble calls", loc:"Germany-wide", city:"Germany", type:"opera", lang:"DE/EN", pay:"Varies", req:"Trained voice", status:"ok", url:"https://de.stagepool.com/opernsanger"},
+ {d:"Singing", t:"StagePool — Choir singers", o:"Choir & ensemble", loc:"Germany-wide", city:"Germany", type:"choir", lang:"DE/EN", pay:"Varies (some paid)", req:"Sight-reading helps", status:"ok", url:"https://de.stagepool.com/chorsanger"},
+ {d:"Singing", t:"StagePool — Musical performers", o:"Musical theatre castings", loc:"Germany-wide", city:"Germany", type:"musical theatre", lang:"DE/EN", pay:"Varies", req:"Sing + move", status:"ok", url:"https://de.stagepool.com/musicaldarsteller"},
+ {d:"Singing", t:"StagePool — Pop/Rock/Jazz singers", o:"Bands, events, sessions", loc:"Germany-wide", city:"Germany", type:"pop/jazz", lang:"DE/EN", pay:"Varies (many paid)", req:"Demo helps", status:"ok", url:"https://de.stagepool.com/pop_rock_jazz_sanger"},
+ {d:"Singing", t:"Gigmit — paid live music gigs", o:"Venues & festivals booking", loc:"Germany + Europe", city:"Germany", type:"live gigs (paid)", lang:"EN/DE", pay:"Paid bookings", req:"Free artist profile", status:"ok", url:"https://www.gigmit.com/"},
+ {d:"Singing", t:"e-TALENTA — singer & musical castings", o:"DACH casting platform (DE/AT/CH)", loc:"Germany + DACH", city:"Germany", type:"castings", lang:"DE/EN", pay:"Varies", req:"Profile + showreel", status:"ok", url:"https://www.etalenta.eu/en"}
 ];
 
 let disc = "All";
@@ -101,9 +129,7 @@ const discWrap = document.getElementById('disc');
 ["All","Modeling","Make-up","Singing"].forEach(name => {
   const b = document.createElement('button');
   b.className = 'btn' + (name==="All"?' active':'');
-  const n = name==="All"?DATA.length:DATA.filter(x=>x.d===name).length;
-  b.textContent = name + (name==="All"?"":" ") + (name==="All"?"":"("+n+")");
-  if(name==="All") b.textContent = "All ("+DATA.length+")";
+  b.textContent = name==="All" ? "All ("+DATA.length+")" : name+" ("+DATA.filter(x=>x.d===name).length+")";
   b.onclick = () => { disc=name; [...discWrap.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); render(); };
   discWrap.appendChild(b);
 });
@@ -120,9 +146,9 @@ function render(){
   let shown = 0;
   groups.forEach(g => {
     const items = DATA.filter(x => x.d===g)
-      .filter(x => !city || x.city===city || (city==="Other" && x.city==="Other"))
+      .filter(x => !city || x.city===city)
       .filter(x => !verOnly || x.status==="ok")
-      .filter(x => !q || (x.t+" "+x.o+" "+x.type+" "+x.req+" "+x.pay).toLowerCase().includes(q));
+      .filter(x => !q || (x.t+" "+x.o+" "+x.type+" "+x.req+" "+x.pay+" "+x.loc).toLowerCase().includes(q));
     if(!items.length) return;
     const gt = document.createElement('div'); gt.className='group-title'; gt.textContent = g + " · " + items.length; list.appendChild(gt);
     items.forEach(x => {
@@ -144,13 +170,13 @@ function render(){
     });
   });
   if(!shown){ const e=document.createElement('div'); e.className='empty'; e.textContent='No matches — try clearing filters.'; list.appendChild(e); }
-  document.getElementById('sub').textContent = shown + ' opportunities · modeling, make-up & singing · Berlin + remote/Germany + Florence, Milan, Lisbon, Zurich';
+  document.getElementById('sub').textContent = shown + ' opportunities · modeling, make-up & singing · Berlin · Germany · Switzerland · Milan · Florence · Lisbon · France · England';
 }
 
 document.getElementById('city').onchange = render;
 document.getElementById('ver').onchange = render;
 document.getElementById('q').oninput = render;
-document.getElementById('foot').textContent = "Updated 16 Jun 2026 · curated & link-checked this run · all sources free to apply. Measurements not on file, so modeling skews curvy/plus + commercial. Refreshed each Tuesday run.";
+document.getElementById('foot').textContent = "Updated 16 Jun 2026 · curated & link-checked this run · all agency applications free. Modeling skews curvy/plus + commercial (no measurements on file). Refreshed each Tuesday (all 3) + Thursday (modeling).";
 render();
 </script>
 </body>
